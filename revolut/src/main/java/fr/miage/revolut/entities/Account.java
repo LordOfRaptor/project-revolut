@@ -9,10 +9,11 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-public class Compte{
+public class Account{
 
     @Id
     private String uuid;
+
 
 
 }
