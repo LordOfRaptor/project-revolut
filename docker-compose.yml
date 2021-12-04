@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=revolut
+      - POSTGRES_PASSWORD=revolut
+      - POSTGRES_DB=revolut
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+volumes:
+  data:
