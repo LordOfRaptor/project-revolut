@@ -38,7 +38,7 @@ public class Card {
     @Column(name = "contactless")
     private Boolean contactless;
 
-    @Column(name = "limit")
+    @Column(name = "`limit`")
     private Integer limit;
 
     @Column(name = "location")
