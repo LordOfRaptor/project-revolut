@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -30,7 +31,6 @@ public class Account{
     private String passport;
 
     @Column(name = "phone_number")
-    //@Pattern(regexp = "^\\+[1-9]{1,14}$")
     private String phoneNumber;
 
     @Column(name = "iban",unique = true)
@@ -39,7 +39,16 @@ public class Account{
     @Column(name = "token")
     private String token;
 
-    @Column(name = "password")
-    private String password;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(uuid, account.uuid) && Objects.equals(name, account.name) && Objects.equals(surname, account.surname) && Objects.equals(country, account.country) && Objects.equals(passport, account.passport) && Objects.equals(phoneNumber, account.phoneNumber) && Objects.equals(iban, account.iban) && Objects.equals(token, account.token);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid, name, surname, country, passport, phoneNumber, iban, token);
+    }
 }
