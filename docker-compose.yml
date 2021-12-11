@@ -12,5 +12,24 @@ services:
       - ./data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+#  app:
+#    build:
+#      context: revolut/
+#    container_name: app
+#    depends_on:
+#      - db
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/revolut
+#      - SPRING_DATASOURCE_USERNAME=revolut
+#      - SPRING_DATASOURCE_PASSWORD=revolut
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#    ports:
+#      - "8080:8080"
+#    deploy:
+#      restart_policy:
+#        condition: on-failure
+#        delay: 10s
+#        max_attempts: 3
+#        window: 120s
 volumes:
   data:
