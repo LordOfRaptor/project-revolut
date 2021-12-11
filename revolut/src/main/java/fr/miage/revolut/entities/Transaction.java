@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -41,16 +42,28 @@ public class Transaction {
     private String creditAccount;
 
     @Column(name = "credit_account_name")
-    private String creditcAcountName;
+    private String creditAcountName;
 
     //Send
     @Column(name = "debtor_account")
     private String debtorAccount;
 
     @Column(name = "debtor_account_name")
-    private String debtorcAcountName;
+    private String debtorAcountName;
 
     @Column(name = "label")
     private String label;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return amount == that.amount && Objects.equals(uuid, that.uuid) && Objects.equals(date, that.date) && Objects.equals(changeRate, that.changeRate) && Objects.equals(category, that.category) && Objects.equals(country, that.country) && Objects.equals(creditAccount, that.creditAccount) && Objects.equals(creditAcountName, that.creditAcountName) && Objects.equals(debtorAccount, that.debtorAccount) && Objects.equals(debtorAcountName, that.debtorAcountName) && Objects.equals(label, that.label);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid, date, amount, changeRate, category, country, creditAccount, creditAcountName, debtorAccount, debtorAcountName, label);
+    }
 }

@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -43,9 +44,16 @@ public class Card {
     @Column(name = "location")
     private Boolean location;
 
-/**
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return Objects.equals(uuid, card.uuid) && Objects.equals(cardNumber, card.cardNumber) && Objects.equals(code, card.code) && Objects.equals(cvv, card.cvv) && Objects.equals(blocked, card.blocked) && Objects.equals(virtual, card.virtual) && Objects.equals(contactless, card.contactless) && Objects.equals(limit, card.limit) && Objects.equals(location, card.location);
+    }
 
-     * • localisation (oui/non)
-     */
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid, cardNumber, code, cvv, blocked, virtual, contactless, limit, location);
+    }
 }
