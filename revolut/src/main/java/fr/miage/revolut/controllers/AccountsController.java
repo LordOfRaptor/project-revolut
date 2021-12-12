@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.net.URI;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping(value = "/accounts", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -21,6 +23,7 @@ import javax.validation.Valid;
 public class AccountsController {
 
     private final AccountsService accountsService;
+    private Logger LOGGER = Logger.getLogger(String.valueOf(AccountsController.class));
 
     @GetMapping(value = "/{uuidIntervenant}")
     public ResponseEntity<EntityModel<AccountView>> getOneAccount(@PathVariable("uuidIntervenant") String uuid){
@@ -30,9 +33,9 @@ public class AccountsController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<EntityModel<AccountView>> saveAccount(@RequestBody @Valid NewAccount acc)  {
-        EntityModel<AccountView> accountView =accountsService.saveAccount(acc);
-        return  ResponseEntity.ok(accountView);
+    public ResponseEntity<?> saveAccount(@RequestBody @Valid NewAccount acc)  {
+        URI location = accountsService.saveAccount(acc);
+        return ResponseEntity.created(location).body(location);
     }
 
     @GetMapping(value = "/{uuidIntervenant}/cards")
@@ -47,9 +50,4 @@ public class AccountsController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping
-    @Transactional
-    public ResponseEntity<?> getAccountAccounts()  {
-        return ResponseEntity.badRequest().build();
-    }
 }

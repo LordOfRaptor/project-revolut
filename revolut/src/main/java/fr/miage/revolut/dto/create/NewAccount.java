@@ -23,9 +23,10 @@ public class NewAccount {
     private String country;
 
     @Size(min =9,max = 9)
+    @Pattern(regexp = "^[0-9A-Z]{9}$",message = "Numero de passport interdit")
     private String passport;
 
     @NotEmpty
-    @Pattern(regexp = "^\\+[1-9]{1,14}$")
+    @Pattern(regexp = "^\\+[1-9][0-9]{1,13}$" , message = "Numero de telephone invalide")
     private String phoneNumber;
 }

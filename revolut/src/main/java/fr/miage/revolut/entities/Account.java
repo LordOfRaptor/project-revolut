@@ -30,10 +30,10 @@ public class Account{
     @Column(name = "country")
     private String country;
 
-    @Column(name = "passport", length = 9)
+    @Column(name = "passport", length = 9,unique = true)
     private String passport;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number",unique = true)
     private String phoneNumber;
 
     @Column(name = "iban",unique = true)
