@@ -17,13 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 class AccountRepositoryUnitTest {
 
+    private static Account acc, a1;
     @Autowired
     AccountsRepository accountsRepository;
 
-    private static Account acc,a1;
-
     @BeforeAll
-    static void setUp(){
+    static void setUp() {
         acc = new Account();
         acc.setUuid("1");
         acc.setName("Name");
@@ -43,17 +42,17 @@ class AccountRepositoryUnitTest {
     }
 
     @AfterEach
-    void unset(){
+    void unset() {
         accountsRepository.deleteAll();
     }
 
     @Test
-    void testSaveSucces(){
+    void testSaveSucces() {
         assertDoesNotThrow(() -> accountsRepository.save(acc));
     }
 
     @Test
-    void testNotUniquePhoneNumber(){
+    void testNotUniquePhoneNumber() {
         a1.setPhoneNumber("+330909090909");
         a1.setPassport("123456779");
         a1.setIban("FR123456789");
@@ -62,14 +61,14 @@ class AccountRepositoryUnitTest {
             accountsRepository.save(a1);
         });
         //Test UK for unique key
-        assertThat(exception.getMessage(),containsString("UK"));
+        assertThat(exception.getMessage(), containsString("UK"));
         //Test que c'est bien le numéro de telephone de la table account le probleme
-        assertThat(exception.getMessage(),containsString("ACCOUNT(PHONE_NUMBER) VALUES"));
+        assertThat(exception.getMessage(), containsString("ACCOUNT(PHONE_NUMBER) VALUES"));
 
     }
 
     @Test
-    void testNotUniquePassport(){
+    void testNotUniquePassport() {
         a1.setPassport("123456789");
         a1.setPhoneNumber("+330908090909");
         a1.setIban("FR123456789");
@@ -78,13 +77,13 @@ class AccountRepositoryUnitTest {
             accountsRepository.save(a1);
         });
         //Test UK for unique key
-        assertThat(exception.getMessage(),containsString("UK"));
+        assertThat(exception.getMessage(), containsString("UK"));
         //Test que c'est bien le numéro de passport de la table account le probleme
-        assertThat(exception.getMessage(),containsString("ACCOUNT(PASSPORT) VALUES"));
+        assertThat(exception.getMessage(), containsString("ACCOUNT(PASSPORT) VALUES"));
     }
 
     @Test
-    void testNotUniqueIban(){
+    void testNotUniqueIban() {
         a1.setPhoneNumber("+330908090909");
         a1.setPassport("123456779");
         a1.setIban("FR21315432464355");
@@ -93,14 +92,14 @@ class AccountRepositoryUnitTest {
             accountsRepository.save(a1);
         });
         //Test UK for unique key
-        assertThat(exception.getMessage(),containsString("UK"));
+        assertThat(exception.getMessage(), containsString("UK"));
         //Test que c'est bien le numéro de l'iban de la table account le probleme
-        assertThat(exception.getMessage(),containsString("ACCOUNT(IBAN) VALUES"));
+        assertThat(exception.getMessage(), containsString("ACCOUNT(IBAN) VALUES"));
 
     }
 
     @Test
-    void testUniqueAccount(){
+    void testUniqueAccount() {
         a1.setPhoneNumber("+330908090909");
         a1.setPassport("123456779");
         a1.setIban("FR123456789");

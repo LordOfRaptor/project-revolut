@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import javax.validation.Validator;
 
 @Service
-public class AccountsValidator extends OurValidator<NewAccount>{
+public class NewAccountValidator extends OurValidator<NewAccount> {
 
-    AccountsValidator(Validator validator) {
+    public NewAccountValidator(Validator validator) {
         super(validator);
     }
 }

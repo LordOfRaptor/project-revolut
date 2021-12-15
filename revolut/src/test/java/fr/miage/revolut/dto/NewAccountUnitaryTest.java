@@ -9,24 +9,22 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.validation.ConstraintViolationException;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 @ExtendWith(SpringExtension.class)
 class NewAccountUnitaryTest {
 
-    private NewAccountValidator newAccountValidator;
-
     static private Validator validator;
-
     static private NewAccount newAccount;
+    private NewAccountValidator newAccountValidator;
 
     @BeforeAll
     static void setUpAll() {
@@ -51,7 +49,7 @@ class NewAccountUnitaryTest {
     }
 
     @Nested
-    class PhoneNumber{
+    class PhoneNumber {
 
         @DisplayName("Test regex phone number (too long/too short/withoutPlus/ZeroAtBeginning)")
         @ParameterizedTest
@@ -84,7 +82,7 @@ class NewAccountUnitaryTest {
     }
 
     @Nested
-    class Passport{
+    class Passport {
 
         @DisplayName("Test regex passport (too long/too short/letterNotCapital)")
         @ParameterizedTest
@@ -116,7 +114,7 @@ class NewAccountUnitaryTest {
     }
 
     @Nested
-    class Blanked{
+    class Blanked {
 
         @DisplayName("Test regex surname (blank/empty/too short)")
         @ParameterizedTest

@@ -10,12 +10,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class AccountAssemblerUnitaryTest {
 
+    private static Account acc;
     private AccountAssembler accountAssembler;
 
-    private static Account acc;
-
     @BeforeAll
-    static void beforeTest(){
+    static void beforeTest() {
         acc = new Account();
         acc.setUuid("1");
         acc.setName("Name");
@@ -29,7 +28,7 @@ public class AccountAssemblerUnitaryTest {
     }
 
     @BeforeEach
-    void beforeEach(){
+    void beforeEach() {
         accountAssembler = new AccountAssembler(new AccountsMapperImpl());
     }
 }

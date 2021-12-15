@@ -13,20 +13,24 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class NewAccount {
 
-    @NotBlank
+    @NotBlank(message = "name invalid")
+    @Size(min = 2, message = "name invalid")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "surname invalid")
+    @Size(min = 2, message = "surname invalid")
     private String surname;
 
-    @NotBlank
+    @NotBlank(message = "country invalid")
+    //Shortest country name is 4
+    @Size(min = 4, message = "country invalid")
     private String country;
 
-    @Size(min =9,max = 9)
-    @Pattern(regexp = "^[0-9A-Z]{9}$",message = "Numero de passport interdit")
+    @Size(min = 9, max = 9)
+    @Pattern(regexp = "^[0-9A-Z]{9}$", message = "Numero de passport invalide")
     private String passport;
 
     @NotEmpty
-    @Pattern(regexp = "^\\+[1-9][0-9]{1,13}$" , message = "Numero de telephone invalide")
+    @Pattern(regexp = "^\\+[1-9][0-9]{7,13}$", message = "Numero de telephone invalide")
     private String phoneNumber;
 }

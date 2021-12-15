@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@Table(name = "TRANSACTION",schema = "revolut")
+@Table(name = "TRANSACTION", schema = "revolut")
 @Entity
 @NoArgsConstructor
 public class Transaction {
@@ -28,7 +28,7 @@ public class Transaction {
     @Column(name = "amount")
     private long amount;
 
-    @Column(name = "change_rate", precision = 10,scale = 2)
+    @Column(name = "change_rate", precision = 10, scale = 2)
     private BigDecimal changeRate;
 
     @Column(name = "category")

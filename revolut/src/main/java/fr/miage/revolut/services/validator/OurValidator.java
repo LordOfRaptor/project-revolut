@@ -1,5 +1,6 @@
 package fr.miage.revolut.services.validator;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
@@ -8,13 +9,10 @@ import javax.validation.Validator;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 class OurValidator<T> {
 
     private final Validator validator;
-
-    OurValidator(Validator validator) {
-        this.validator = validator;
-    }
 
     public void validate(T obj) {
         Set<ConstraintViolation<T>> violations = validator.validate(obj);

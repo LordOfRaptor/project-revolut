@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@Table(name = "CARD",schema = "revolut")
+@Table(name = "CARD", schema = "revolut")
 @Entity
 @NoArgsConstructor
 public class Card {

@@ -12,10 +12,10 @@ import java.util.Objects;
 
 @Entity
 @Getter
-@Table(name = "ACCOUNT",schema = "revolut")
+@Table(name = "ACCOUNT", schema = "revolut")
 @Setter
 @NoArgsConstructor
-public class Account{
+public class Account {
 
     @Id
     @Column(name = "uuid")
@@ -30,13 +30,13 @@ public class Account{
     @Column(name = "country")
     private String country;
 
-    @Column(name = "passport", length = 9,unique = true)
+    @Column(name = "passport", length = 9, unique = true)
     private String passport;
 
-    @Column(name = "phone_number",unique = true)
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
-    @Column(name = "iban",unique = true)
+    @Column(name = "iban", unique = true)
     private String iban;
 
     @Column(name = "token")

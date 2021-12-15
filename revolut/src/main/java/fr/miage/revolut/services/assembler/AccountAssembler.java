@@ -24,6 +24,8 @@ public class AccountAssembler implements RepresentationModelAssembler<Account, E
                 linkTo(methodOn(AccountsController.class)
                         .getOneAccount(acc.getUuid())).withSelfRel(),
                 linkTo(methodOn(AccountsController.class)
-                        .getAccountCards(acc.getUuid())).withRel("cards"));
+                        .getAccountCards(acc.getUuid())).withRel("cards"),
+                linkTo(methodOn(AccountsController.class)
+                        .getAccountTransactions(acc.getUuid())).withRel("transactions"));
     }
 }
