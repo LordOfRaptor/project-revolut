@@ -4,6 +4,7 @@ import fr.miage.revolut.dto.create.NewAccount;
 import fr.miage.revolut.entities.Account;
 import fr.miage.revolut.mapper.AccountsMapperImpl;
 import fr.miage.revolut.repositories.AccountsRepository;
+import fr.miage.revolut.services.security.KeycloakService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,6 +30,8 @@ class AccountsServiceUnitaryTest {
     private static NewAccount newAccount;
     @Mock
     AccountsRepository repository;
+    @Mock
+    KeycloakService keycloakService;
     AccountsService accountsService;
 
     @BeforeAll
@@ -53,7 +56,7 @@ class AccountsServiceUnitaryTest {
 
     @BeforeEach
     void beforeEach() {
-        accountsService = new AccountsService(repository, new AccountsMapperImpl());
+        accountsService = new AccountsService(repository, new AccountsMapperImpl(),keycloakService);
     }
 
     @Test
