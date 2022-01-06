@@ -33,7 +33,7 @@ public class AccountsService {
         UserRequest userRequest = new UserRequest();
 
         userRequest.setUsername(id);
-        userRequest.setPassword("test");
+        userRequest.setPassword(acc.getPassword());
         keycloakService.create(userRequest);
         a.setUuid(id);
         //Pas un vrai IBAN voir https://github.com/arturmkrtchyan/iban4j

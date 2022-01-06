@@ -4,6 +4,7 @@ import fr.miage.revolut.dto.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -30,8 +31,10 @@ public class KeycloakService {
     @Value("${app.role}")
     private String role;
 
+    @Value("${keycloak.resource}")
+    private String resources;
+
     public Response create(UserRequest request)  {
-        log.info(keycloak.toString());
         keycloak.tokenManager().getAccessToken();
         var password = preparePasswordRepresentation(request.getPassword());
         var user = prepareUserRepresentation(request, password);
@@ -40,13 +43,16 @@ public class KeycloakService {
                 .users()
                 .create(user);
         String userId = CreatedResponseUtil.getCreatedId(response);
-        RoleRepresentation realmRoleUser = keycloak.realm(realm).roles().get(role).toRepresentation();
+        ClientRepresentation client = keycloak.realm(realm).clients().findByClientId(resources).get(0);
+        RoleRepresentation clientRoleUser  = keycloak.realm(realm).clients().get(
+                        client.getId())
+                .roles().get(role).toRepresentation();
         keycloak.realm(realm)
                 .users()
                 .get(userId)
                 .roles()
-                .realmLevel()
-                .add(List.of(realmRoleUser));
+                .clientLevel(client.getId())
+                .add(List.of(clientRoleUser));
         return response;
     }
 
@@ -64,8 +70,6 @@ public class KeycloakService {
         newUser.setId(id);
         newUser.setUsername(request.getUsername());
         newUser.setCredentials(List.of(cR));
-        log.info(newUser.getUsername());
-        log.info(newUser.getId());
 
         return newUser;
     }

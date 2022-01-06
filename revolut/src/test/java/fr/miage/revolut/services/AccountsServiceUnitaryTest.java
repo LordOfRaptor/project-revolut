@@ -74,7 +74,7 @@ class AccountsServiceUnitaryTest {
     }
 
     @Test
-    @DisplayName("Verifie la bonen generation de l'iban")
+    @DisplayName("Verifie la bonne generation de l'iban")
     void saveAccountIban() {
         when(repository.save(any(Account.class))).thenAnswer(i -> i.getArguments()[0]);
         Account acc = accountsService.saveAccount(newAccount);
