@@ -40,6 +40,7 @@ class NewAccountUnitaryTest {
         newAccount.setCountry("France");
         newAccount.setPassport("AZ1234567");
         newAccount.setPhoneNumber("+330707070707");
+        newAccount.setPassword("azertyuiop");
         newAccountValidator = new NewAccountValidator(validator);
     }
 
@@ -109,6 +110,36 @@ class NewAccountUnitaryTest {
                 })
         void newAccountPassportValidTest(String value) {
             newAccount.setPassport(value);
+            assertDoesNotThrow(() -> newAccountValidator.validate(newAccount));
+        }
+    }
+
+    @Nested
+    class Password {
+
+        @DisplayName("Test regex paswword (too long/too short)")
+        @ParameterizedTest
+        @ValueSource(strings =
+                {
+                        "azertyu",
+                        "azertyazertyazertyazertyazertya"
+                })
+        void newAccountPasswordNotValidTest(String value) {
+            newAccount.setPassword(value);
+            Throwable exception = assertThrows(ConstraintViolationException.class,
+                    () -> newAccountValidator.validate(newAccount));
+            assertThat(exception.getMessage(), containsString("password invalid"));
+        }
+
+        @DisplayName("Test regex phone number valid (longer/shorter)")
+        @ParameterizedTest
+        @ValueSource(strings =
+                {
+                        "azertyui",
+                        "azertyazertyazertyazertyazerty"
+                })
+        void newAccountPasswordValidTest(String value) {
+            newAccount.setPassword(value);
             assertDoesNotThrow(() -> newAccountValidator.validate(newAccount));
         }
     }
