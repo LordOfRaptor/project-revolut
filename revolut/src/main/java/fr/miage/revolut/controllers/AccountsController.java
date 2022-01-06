@@ -16,6 +16,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -52,7 +54,7 @@ public class AccountsController {
 
     private Logger LOGGER = Logger.getLogger(String.valueOf(AccountsController.class));
 
-    //@PreAuthorize(value = "hasRole('account')")
+    @PreAuthorize(value = "hasRole('user') and authentication.name.equals(#uuid)")
     @GetMapping(value = "/{uuidIntervenant}")
     public ResponseEntity<EntityModel<AccountView>> getOneAccount(@PathVariable("uuidIntervenant") String uuid) {
         var a = accountsService.findAccount(uuid);
