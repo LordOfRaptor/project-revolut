@@ -26,11 +26,15 @@ public class NewAccount {
     @Size(min = 4, message = "country invalid")
     private String country;
 
-    @Size(min = 9, max = 9)
+    @Size(min = 9, max = 9, message = "Numero de passport invalide must respect a size of {min}")
     @Pattern(regexp = "^[0-9A-Z]{9}$", message = "Numero de passport invalide")
     private String passport;
 
     @NotEmpty
     @Pattern(regexp = "^\\+[1-9][0-9]{7,13}$", message = "Numero de telephone invalide")
     private String phoneNumber;
+
+    @NotBlank(message = "password invalid must be not blank")
+    @Size(min = 8,max = 30, message = "password invalid must be between {min} and {max}")
+    private String password;
 }
