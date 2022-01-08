@@ -1,5 +1,6 @@
 package fr.miage.revolut.controllers;
 
+import fr.miage.revolut.config.annotations.Authorization;
 import fr.miage.revolut.dto.UserRequest;
 import fr.miage.revolut.dto.create.NewAccount;
 import fr.miage.revolut.dto.view.AccountView;
@@ -8,6 +9,7 @@ import fr.miage.revolut.mapper.AccountsMapper;
 import fr.miage.revolut.services.AccountsService;
 import fr.miage.revolut.services.assembler.AccountAssembler;
 import lombok.RequiredArgsConstructor;
+import fr.miage.revolut.config.annotations.Authorization.IsUser;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.Configuration;
 import org.keycloak.representations.AccessTokenResponse;
@@ -54,8 +56,9 @@ public class AccountsController {
 
     private Logger LOGGER = Logger.getLogger(String.valueOf(AccountsController.class));
 
-    @PreAuthorize(value = "hasRole('user') and authentication.name.equals(#uuid)")
+    //@PreAuthorize(value = "hasRole('user') and authentication.name.equals(#uuid)")
     @GetMapping(value = "/{uuidIntervenant}")
+    @IsUser
     public ResponseEntity<EntityModel<AccountView>> getOneAccount(@PathVariable("uuidIntervenant") String uuid) {
         var a = accountsService.findAccount(uuid);
         return Optional.ofNullable(a).filter(Optional::isPresent)
