@@ -5,6 +5,7 @@ import fr.miage.revolut.entities.Account;
 import fr.miage.revolut.mapper.AccountsMapperImpl;
 import fr.miage.revolut.repositories.AccountsRepository;
 import fr.miage.revolut.services.security.KeycloakService;
+import fr.miage.revolut.services.validator.PacthAccountValidator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -33,6 +37,14 @@ class AccountsServiceUnitaryTest {
     @Mock
     KeycloakService keycloakService;
     AccountsService accountsService;
+    static PacthAccountValidator pacthAccountValidator;
+
+    @BeforeAll
+    static void init(){
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        pacthAccountValidator = new PacthAccountValidator(validator);
+    }
 
     @BeforeAll
     static void beforeTest() {
@@ -56,7 +68,7 @@ class AccountsServiceUnitaryTest {
 
     @BeforeEach
     void beforeEach() {
-        accountsService = new AccountsService(repository, new AccountsMapperImpl(),keycloakService);
+        accountsService = new AccountsService(repository, new AccountsMapperImpl(),keycloakService,pacthAccountValidator);
     }
 
     @Test

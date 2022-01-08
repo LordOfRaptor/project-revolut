@@ -1,6 +1,6 @@
 package fr.miage.revolut.controllers;
 
-import fr.miage.revolut.config.annotations.Authorization;
+import fr.miage.revolut.config.annotations.IsUser;
 import fr.miage.revolut.dto.UserRequest;
 import fr.miage.revolut.dto.create.NewAccount;
 import fr.miage.revolut.dto.view.AccountView;
@@ -9,7 +9,6 @@ import fr.miage.revolut.mapper.AccountsMapper;
 import fr.miage.revolut.services.AccountsService;
 import fr.miage.revolut.services.assembler.AccountAssembler;
 import lombok.RequiredArgsConstructor;
-import fr.miage.revolut.config.annotations.Authorization.IsUser;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.Configuration;
 import org.keycloak.representations.AccessTokenResponse;
@@ -18,8 +17,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -90,6 +87,17 @@ public class AccountsController {
                 authzClient.obtainAccessToken(uuid, userRequest.getPassword());
 
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping(path = "/{uuidIntervenant}")
+    @IsUser
+    public ResponseEntity<EntityModel<AccountView>> patchAccount(@PathVariable("uuidIntervenant") String uuid,@RequestBody Map<Object, Object> fields) {
+        var a = accountsService.patchAccount(uuid,fields);
+        return Optional.ofNullable(a).filter(Optional::isPresent)
+                .map(account -> ResponseEntity.ok(accountsAssembler.toModel(account.get())))
+                .orElse(ResponseEntity.notFound().build());
+
+
     }
 
     @GetMapping(value = "/{uuidIntervenant}/cards")

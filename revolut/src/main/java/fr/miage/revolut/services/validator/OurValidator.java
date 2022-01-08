@@ -12,7 +12,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 class OurValidator<T> {
 
-    private final Validator validator;
+    protected final Validator validator;
 
     public void validate(T obj) {
         Set<ConstraintViolation<T>> violations = validator.validate(obj);
