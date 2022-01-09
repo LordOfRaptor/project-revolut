@@ -38,15 +38,16 @@ public class AccountsService {
         Account a = mapper.toEntity(acc);
         String id = UUID.randomUUID().toString();
         UserRequest userRequest = new UserRequest();
-
-        userRequest.setUsername(id);
-        userRequest.setPassword(acc.getPassword());
-        keycloakService.create(userRequest);
         a.setUuid(id);
         //Pas un vrai IBAN voir https://github.com/arturmkrtchyan/iban4j
         a.setIban(a.getCountry().substring(0, 2).toUpperCase(Locale.ROOT)
                 + UUID.randomUUID().toString().replace("-", "").substring(0, 20).toUpperCase(Locale.ROOT));
         a = accRep.save(a);
+        userRequest.setUsername(id);
+        userRequest.setPassword(acc.getPassword());
+
+        keycloakService.create(userRequest);
+
         return a;
     }
 

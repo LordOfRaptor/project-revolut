@@ -18,8 +18,9 @@
             <column name="iban" type="VARCHAR(255)"/>
             <column name="token" type="VARCHAR(255)"/>
         </createTable>
-        <addUniqueConstraint columnNames="iban" constraintName="uc_account_iban" schemaName="revolut"
-                             tableName="account"/>
+        <addUniqueConstraint columnNames="iban" constraintName="uc_account_iban" schemaName="revolut" tableName="account"/>
+        <addUniqueConstraint columnNames="passport" constraintName="uc_account_passport" schemaName="revolut" tableName="account"/>
+        <addUniqueConstraint columnNames="phone_number" constraintName="uc_account_phone_number" schemaName="revolut" tableName="account"/>
     </changeSet>
 
 </databaseChangeLog>
