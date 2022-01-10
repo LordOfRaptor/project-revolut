@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -40,9 +41,20 @@ public class AccountsControllerAdvice {
 
     @ResponseStatus(value = HttpStatus.CONFLICT)
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public Map<String, String> duplicateEmailException(HttpServletRequest req, DataIntegrityViolationException e) {
+    public Map<String, String> DataIntegrityException(HttpServletRequest req, DataIntegrityViolationException e) {
         Map<String, String> json = new LinkedHashMap<>();
         json.put("status",String.valueOf(HttpStatus.CONFLICT.value()));
+        json.put("path",req.getRequestURI());
+        json.put("message", e.getLocalizedMessage());
+        return json;
+    }
+
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Map<String, String> constraintViolationException(HttpServletRequest req, ConstraintViolationException e) {
+        Map<String, String> json = new LinkedHashMap<>();
+        json.put("status",String.valueOf(HttpStatus.BAD_REQUEST.value()));
         json.put("path",req.getRequestURI());
         json.put("message", e.getLocalizedMessage());
         return json;

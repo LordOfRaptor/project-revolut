@@ -59,8 +59,8 @@ public class AccountsService {
 
             fields.forEach((f, v) -> {
                 switch (f.toString()){
-                    case "passport" -> acc.setPassport(v.toString());
-                    case "phoneNumber" -> acc.setPhoneNumber(v.toString());
+                    case "passport" -> acc.setPassport((v!=null) ? v.toString():  null);
+                    case "phoneNumber" -> acc.setPhoneNumber((v!=null) ? v.toString():  null);
                 }
             });
             PatchAccount pa = new PatchAccount();

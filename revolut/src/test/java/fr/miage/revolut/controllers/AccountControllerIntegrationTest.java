@@ -3,6 +3,7 @@ package fr.miage.revolut.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.miage.revolut.dto.UserRequest;
 import fr.miage.revolut.dto.create.NewAccount;
+import fr.miage.revolut.dto.patch.PatchAccount;
 import fr.miage.revolut.entities.Account;
 import fr.miage.revolut.repositories.AccountsRepository;
 import io.restassured.RestAssured;
@@ -21,12 +22,14 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("security")
@@ -72,6 +75,7 @@ class AccountControllerIntegrationTest {
 
         newAccount.setPassport("AAAAAAAAA");
         newAccount.setCountry("France");
+        newAccount.setPassword("testtest");
     }
 
 
@@ -79,7 +83,7 @@ class AccountControllerIntegrationTest {
     public void setupContext(){
         //password is testest
         account.setUuid(uuid);
-        newAccount.setPassword("testtest");
+        newAccount.setPassport("AAAAAAAAA");
         ar.save(account);
         RestAssured.port = port;
     }
@@ -108,14 +112,27 @@ class AccountControllerIntegrationTest {
     }
 
     @Test
-    public void postApiFailure() throws Exception {
-        newAccount.setPassword("azerty");
+    void postApiFailureWrongDTO() throws Exception {
+        newAccount.setPassport("AAAAAAAAAA");
         Response response = given().body(this.toJsonString(newAccount))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/accounts")
                 .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .extract()
+                .response();
+    }
+
+    @Test
+    void postApiFailureDuplicate() throws Exception {
+        newAccount.setPassport("ZZZRTUUIT");
+        Response response = given().body(this.toJsonString(newAccount))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_CONFLICT)
                 .extract()
                 .response();
     }
@@ -144,6 +161,32 @@ class AccountControllerIntegrationTest {
         Header h =new Header("Authorization","bearer "+ getHeaderAuthorizationForFailure());
         given().header(h).
                 when().get("/accounts/"+uuid).then().statusCode(HttpStatus.SC_UNAUTHORIZED);
+    }
+
+    @Test
+    void patchOneValid() throws Exception {
+        PatchAccount pa = new PatchAccount();
+        pa.setPassport("BBBBBBBBB");
+        pa.setPhoneNumber("+330909090909");
+        given().header(getHeaderAuthorization()).
+                body(this.toJsonString(pa)).
+                contentType(ContentType.JSON).
+                when().patch("/accounts/"+uuid).then().statusCode(HttpStatus.SC_OK);
+        Optional<Account> a = ar.findById(uuid);
+        assertEquals("BBBBBBBBB",a.get().getPassport());
+        assertEquals("+330909090909",a.get().getPhoneNumber());
+    }
+
+    @Test
+    void patchOneNotValid() throws Exception {
+        PatchAccount pa = new PatchAccount();
+        pa.setPassport("BBBBBBBBBBB");
+        given().header(getHeaderAuthorization()).
+                body(this.toJsonString(pa)).
+                contentType(ContentType.JSON).
+                when().patch("/accounts/"+uuid).then().statusCode(HttpStatus.SC_BAD_REQUEST);
+        Optional<Account> a = ar.findById(uuid);
+        assertEquals("ZZZRTUUIT",a.get().getPassport());
     }
 
 
