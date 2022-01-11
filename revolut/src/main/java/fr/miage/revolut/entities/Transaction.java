@@ -26,7 +26,7 @@ public class Transaction {
     private OffsetDateTime date;
 
     @Column(name = "amount")
-    private long amount;
+    private Long amount;
 
     @Column(name = "change_rate", precision = 10, scale = 2)
     private BigDecimal changeRate;

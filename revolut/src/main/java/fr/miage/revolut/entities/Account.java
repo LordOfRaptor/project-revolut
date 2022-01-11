@@ -42,6 +42,9 @@ public class Account {
     @Column(name = "token")
     private String token;
 
+    @Column(name = "solde")
+    private String solde;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

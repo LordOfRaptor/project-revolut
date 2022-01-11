@@ -4,13 +4,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-
-    <changeSet id="1" author="quentin">
+    <changeSet id="1641911247698-1" author="quent">
         <createTable schemaName="revolut" tableName="card">
-            <column name="uuid" type="VARCHAR(255)">
+            <column name="card_number" type="VARCHAR(16)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_card"/>
             </column>
-            <column name="card_number" type="VARCHAR(16)"/>
             <column name="code" type="VARCHAR(4)"/>
             <column name="cvv" type="VARCHAR(3)"/>
             <column name="blocked" type="BOOLEAN"/>
@@ -18,7 +16,11 @@
             <column name="contactless" type="BOOLEAN"/>
             <column name="limit" type="INT"/>
             <column name="location" type="BOOLEAN"/>
+            <column name="delete" type="BOOLEAN"/>
+            <column name="account_uuid" type="VARCHAR(255)"/>
         </createTable>
+        <addForeignKeyConstraint baseColumnNames="account_uuid" baseTableName="card" baseTableSchemaName="revolut" constraintName="FK_CARD_ON_ACCOUNT_UUID" referencedColumnNames="uuid" referencedTableName="account" referencedTableSchemaName="revolut"/>
     </changeSet>
+
 
 </databaseChangeLog>
