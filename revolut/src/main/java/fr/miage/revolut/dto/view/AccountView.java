@@ -20,4 +20,6 @@ public class AccountView {
     private String passport;
 
     private String phoneNumber;
+
+    private String solde;
 }

@@ -1,4 +1,4 @@
-package fr.miage.revolut.dto.create;
+package fr.miage.revolut.dto.patch;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,19 +9,16 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
-public class NewCard {
+public class PatchCard {
 
     @NotNull
     private Boolean blocked =false;
-    @NotNull
-    private Boolean virtual=false;
     @NotNull
     private Boolean contactless=true;
 
     @Min(value = 0,message = "Le plafond ne peut être plus petit que {value}")
     @Max(value = 10000,message = "Le plafond ne peut être plus grand que {value}")
     private Integer limit;
-
     @NotNull
     private Boolean location=false;
 }

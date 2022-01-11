@@ -39,6 +39,7 @@ public class AccountsService {
         String id = UUID.randomUUID().toString();
         UserRequest userRequest = new UserRequest();
         a.setUuid(id);
+        a.setSolde("0");
         //Pas un vrai IBAN voir https://github.com/arturmkrtchyan/iban4j
         a.setIban(a.getCountry().substring(0, 2).toUpperCase(Locale.ROOT)
                 + UUID.randomUUID().toString().replace("-", "").substring(0, 20).toUpperCase(Locale.ROOT));
