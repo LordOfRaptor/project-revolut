@@ -86,8 +86,8 @@ class AccountsServiceUnitaryTest {
     }
 
     @Test
-    @DisplayName("Verifie la bonne generation de l'iban")
-    void saveAccountIban() {
+    @DisplayName("Verifie la bonne generation du compte")
+    void saveAccount() {
         when(repository.save(any(Account.class))).thenAnswer(i -> i.getArguments()[0]);
         Account acc = accountsService.saveAccount(newAccount);
         //2 premiere lettre du pays
@@ -95,6 +95,7 @@ class AccountsServiceUnitaryTest {
         String iban = acc.getIban();
         assertEquals(country, iban.substring(0, 2));
         assertEquals(22, iban.length());
+        assertEquals("0",acc.getSolde());
     }
 
 

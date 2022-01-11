@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
@@ -26,7 +24,7 @@ public class Transaction {
     private OffsetDateTime date;
 
     @Column(name = "amount")
-    private Long amount;
+    private long amount;
 
     @Column(name = "change_rate", precision = 10, scale = 2)
     private BigDecimal changeRate;

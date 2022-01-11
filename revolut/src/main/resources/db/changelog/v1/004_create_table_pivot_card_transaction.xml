@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1641945341171-1" author="quent">
+        <createTable schemaName="revolut" tableName="pivot_card_transaction">
+            <column name="transaction_uuid" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_pivot_card_transaction"/>
+            </column>
+            <column name="card_number" type="VARCHAR(16)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_pivot_card_transaction"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint columnNames="transaction_uuid" constraintName="uc_pivot_card_transaction_transaction_uuid" schemaName="revolut" tableName="pivot_card_transaction"/>
+        <addForeignKeyConstraint baseColumnNames="card_number" baseTableName="pivot_card_transaction" baseTableSchemaName="revolut" constraintName="FK_PIVOT_CARD_TRANSACTION_ON_CARD_NUMBER" referencedColumnNames="card_number" referencedTableName="card" referencedTableSchemaName="revolut"/>
+        <addForeignKeyConstraint baseColumnNames="transaction_uuid" baseTableName="pivot_card_transaction" baseTableSchemaName="revolut" constraintName="FK_PIVOT_CARD_TRANSACTION_ON_TRANSACTION_UUID" referencedColumnNames="uuid" referencedTableName="transaction" referencedTableSchemaName="revolut"/>
+    </changeSet>
+
+
+</databaseChangeLog>
