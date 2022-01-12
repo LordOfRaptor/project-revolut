@@ -10,8 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -93,7 +95,7 @@ public class TransactionCardRepositoryUnitTest {
     }
 
     @Test
-    public void findByTransactionCard_Card_CardNumberAndTransactionCard_Transaction_DateIsAfterTest(){
+    void findByTransactionCard_Card_CardNumberAndTransactionCard_Transaction_DateIsAfterTest(){
         var res = transactionCardRepository.findByTransactionCard_Card_CardNumberAndTransactionCard_Transaction_DateGreaterThanEqual(c1.getCardNumber(),odt.minusDays(30));
         assertEquals(1,res.size());
         assertEquals("uuid-t1",res.get(0).getTransactionCard().getTransaction().getUuid());
@@ -101,12 +103,17 @@ public class TransactionCardRepositoryUnitTest {
     }
 
     @Test
-    public void Transaction_Duplicate(){
+    void Transaction_Duplicate(){
         TransactionCard tc4 = new TransactionCard();
         tc4.setTransaction(t3);
         tc4.setCard(c1);
         PivotTransactionCard pt = new PivotTransactionCard();
         pt.setTransactionCard(tc4);
-        transactionCardRepository.save(pt);
+        Throwable exception = assertThrows(DataIntegrityViolationException.class, () -> {
+            transactionCardRepository.save(pt);
+        });
+        assertThat(exception.getMessage(), containsString("UK"));
+        assertThat(exception.getMessage(), containsString("PIVOT_CARD_TRANSACTION(TRANSACTION_UUID) VALUES"));
+
     }
 }

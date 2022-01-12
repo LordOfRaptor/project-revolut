@@ -41,7 +41,7 @@ public class CardsController {
     @GetMapping(value = "/{cardNumber}")
     @IsUser
     public ResponseEntity<?> getCard(@PathVariable("uuid") String uuid,@PathVariable("cardNumber") String cardNumber){
-        var a = cardsService.findCard(cardNumber);
+        var a = cardsService.findCard(cardNumber,uuid);
         return Optional.ofNullable(a).filter(Optional::isPresent)
                 .map(account -> ResponseEntity.ok(cardAssembler.toModelWithAccount(account.get(),uuid)))
                 .orElse(ResponseEntity.notFound().build());
@@ -62,7 +62,7 @@ public class CardsController {
     @IsUser
     @Transactional
     public ResponseEntity<?> deleteCard(@PathVariable("uuid") String uuid,@PathVariable("cardNumber") String cardNumber){
-        var a = cardsService.deleteCard(cardNumber);
+        var a = cardsService.deleteCard(cardNumber,uuid);
         return Optional.ofNullable(a).filter(Optional::isPresent)
                 .map(card -> ResponseEntity.noContent().build())
                 .orElse(ResponseEntity.notFound().build());
@@ -73,7 +73,7 @@ public class CardsController {
     @IsUser
     @Transactional
     public ResponseEntity<EntityModel<CardView>> patchCard(@PathVariable("uuid") String uuid, @PathVariable("cardNumber") String cardNumber, @RequestBody Map<Object, Object> fields) {
-        var a = cardsService.patchAccount(cardNumber,fields);
+        var a = cardsService.patchAccount(cardNumber,uuid,fields);
         return Optional.ofNullable(a).filter(Optional::isPresent)
                 .map(card -> ResponseEntity.ok(cardAssembler.toModelWithAccount(card.get(),uuid)))
                 .orElse(ResponseEntity.notFound().build());

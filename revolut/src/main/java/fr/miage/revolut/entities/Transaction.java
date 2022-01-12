@@ -47,7 +47,7 @@ public class Transaction {
     private String debtorAccount;
 
     @Column(name = "debtor_account_name")
-    private String debtorAcountName;
+    private String debtorAccountName;
 
     @Column(name = "label")
     private String label;
@@ -57,11 +57,11 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return amount == that.amount && Objects.equals(uuid, that.uuid) && Objects.equals(date, that.date) && Objects.equals(changeRate, that.changeRate) && Objects.equals(category, that.category) && Objects.equals(country, that.country) && Objects.equals(creditAccount, that.creditAccount) && Objects.equals(creditAcountName, that.creditAcountName) && Objects.equals(debtorAccount, that.debtorAccount) && Objects.equals(debtorAcountName, that.debtorAcountName) && Objects.equals(label, that.label);
+        return amount == that.amount && Objects.equals(uuid, that.uuid) && Objects.equals(date, that.date) && Objects.equals(changeRate, that.changeRate) && Objects.equals(category, that.category) && Objects.equals(country, that.country) && Objects.equals(creditAccount, that.creditAccount) && Objects.equals(creditAcountName, that.creditAcountName) && Objects.equals(debtorAccount, that.debtorAccount) && Objects.equals(debtorAccountName, that.debtorAccountName) && Objects.equals(label, that.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, date, amount, changeRate, category, country, creditAccount, creditAcountName, debtorAccount, debtorAcountName, label);
+        return Objects.hash(uuid, date, amount, changeRate, category, country, creditAccount, creditAcountName, debtorAccount, debtorAccountName, label);
     }
 }

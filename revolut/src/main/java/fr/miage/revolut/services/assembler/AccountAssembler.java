@@ -2,6 +2,7 @@ package fr.miage.revolut.services.assembler;
 
 import fr.miage.revolut.controllers.AccountsController;
 import fr.miage.revolut.controllers.CardsController;
+import fr.miage.revolut.controllers.TransactionsController;
 import fr.miage.revolut.dto.view.AccountView;
 import fr.miage.revolut.entities.Account;
 import fr.miage.revolut.mapper.AccountsMapper;
@@ -26,7 +27,7 @@ public class AccountAssembler implements RepresentationModelAssembler<Account, E
                         .getOneAccount(acc.getUuid())).withSelfRel(),
                 linkTo(methodOn(CardsController.class)
                         .getCards(acc.getUuid())).withRel("cards"),
-                linkTo(methodOn(AccountsController.class)
-                        .getAccountTransactions(acc.getUuid())).withRel("transactions"));
+                linkTo(methodOn(TransactionsController.class)
+                        .getTransactions(acc.getUuid(),null)).withRel("transactions"));
     }
 }

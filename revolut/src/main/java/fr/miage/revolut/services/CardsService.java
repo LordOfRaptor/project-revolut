@@ -35,8 +35,8 @@ public class CardsService {
         return cardsRepository.findByAccount_UuidAndDeleteFalse(uuid);
     }
 
-    public Optional<Card> findCard(String cardNumber){
-        return cardsRepository.findByCardNumberAndDeleteIsFalse(cardNumber);
+    public Optional<Card> findCard(String cardNumber,String uuid){
+        return cardsRepository.findByCardNumberAndAccount_UuidAndDeleteIsFalse(cardNumber,uuid);
 
     }
 
@@ -51,8 +51,8 @@ public class CardsService {
         return card;
     }
 
-    public Optional<Card> patchAccount(String cardNumber, Map<Object, Object> fields) {
-        var cardOpt = cardsRepository.findByCardNumberAndDeleteIsFalse(cardNumber);
+    public Optional<Card> patchAccount(String cardNumber,String uuid, Map<Object, Object> fields) {
+        var cardOpt = cardsRepository.findByCardNumberAndAccount_UuidAndDeleteIsFalse(cardNumber,uuid);
         if (cardOpt.isPresent()) {
             Card card = cardOpt.get();
 
@@ -76,8 +76,8 @@ public class CardsService {
         return Optional.empty();
     }
 
-    public Optional<Card> deleteCard(String cardNumber){
-        var cardOpt = cardsRepository.findByCardNumberAndDeleteIsFalse(cardNumber);
+    public Optional<Card> deleteCard(String cardNumber,String uuid){
+        var cardOpt = cardsRepository.findByCardNumberAndAccount_UuidAndDeleteIsFalse(cardNumber,uuid);
         if (cardOpt.isPresent()) {
             Card card = cardOpt.get();
             card.setDelete(true);

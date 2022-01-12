@@ -16,6 +16,10 @@ public interface CardsRepository  extends JpaRepository<Card, String> {
 
     Optional<Card> findByCardNumberAndDeleteIsFalse(String cardNumber);
 
+    Optional<Card> findByCardNumberAndAccount_UuidAndDeleteIsFalse(String cardNumber, String uuid);
+
+
+
 
 
 

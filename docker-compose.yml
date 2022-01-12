@@ -38,6 +38,8 @@ services:
       KEYCLOAK_PASSWORD: password
     depends_on:
       - mysql
+    volumes:
+      - ./imports:/opt/jboss/keycloak/imports
 #  app:
 #    build:
 #      context: revolut/
@@ -60,3 +62,4 @@ services:
 volumes:
   data:
   keycloak-data:
+  imports:
