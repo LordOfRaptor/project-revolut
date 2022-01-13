@@ -1,6 +1,7 @@
 package fr.miage.revolut.controllers;
 
 import fr.miage.revolut.config.annotations.IsUser;
+import fr.miage.revolut.dto.create.NewTransaction;
 import fr.miage.revolut.entities.Transaction;
 import fr.miage.revolut.services.TransactionService;
 import fr.miage.revolut.services.assembler.TransactionAssembler;
@@ -10,8 +11,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping(value = "/accounts/{uuid}/transactions", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,5 +43,25 @@ public class TransactionsController {
             return ResponseEntity.ok(transactionAssembler.toModelWithAccount(t.get(), uuid));
         return ResponseEntity.notFound().build();
 
+    }
+
+    @PatchMapping(value = "/{transactionUuid}")
+    @IsUser
+    public ResponseEntity<?> patchTransaction(@PathVariable("uuid") String uuid,@PathVariable("transactionUuid") String transactionUuid, @RequestBody Map<Object, Object> fields){
+        var a = transactionService.patchTransaction(uuid,transactionUuid,fields);
+        return Optional.ofNullable(a).filter(Optional::isPresent)
+                .map(card -> ResponseEntity.ok(transactionAssembler.toModelWithAccount(card.get(),uuid)))
+                .orElse(ResponseEntity.notFound().build());
+
+    }
+
+    @PostMapping
+    @IsUser
+    public ResponseEntity<?> createTransaction(@PathVariable("uuid") String uuid, @RequestBody @Valid NewTransaction transaction){
+        var t = transactionService.create(transaction,uuid);
+        if(t.isEmpty())
+            ResponseEntity.badRequest();
+        URI location = linkTo(TransactionsController.class,uuid).slash(t.get().getUuid()).toUri();
+        return ResponseEntity.created(location).build();
     }
 }

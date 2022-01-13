@@ -38,6 +38,7 @@ public class GlobalSecurityConfiguration extends KeycloakWebSecurityConfigurerAd
                 .antMatchers("/accounts").permitAll()
                 .antMatchers("/swagger-ui/**/").permitAll()
                 .antMatchers("/api-docs/**/").permitAll()
+                .antMatchers("/paiement/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/accounts/{uuidIntervenant}").permitAll()
                 .antMatchers("/accounts/{uuidIntervenant}").authenticated()
 

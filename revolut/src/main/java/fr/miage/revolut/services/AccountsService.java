@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import javax.validation.Validator;
 import java.util.Locale;
 import java.util.Map;
@@ -34,25 +35,31 @@ public class AccountsService {
         return accRep.findById(uuid);
     }
 
-    public Account saveAccount(NewAccount acc) {
-        Account a = mapper.toEntity(acc);
-        String id = UUID.randomUUID().toString();
-        UserRequest userRequest = new UserRequest();
-        a.setUuid(id);
-        a.setSolde("0");
-        //Pas un vrai IBAN voir https://github.com/arturmkrtchyan/iban4j
-        a.setIban(a.getCountry().substring(0, 2).toUpperCase(Locale.ROOT)
-                + UUID.randomUUID().toString().replace("-", "").substring(0, 20).toUpperCase(Locale.ROOT));
-        a = accRep.save(a);
-        userRequest.setUsername(id);
-        userRequest.setPassword(acc.getPassword());
 
+    public Account saveAccount(NewAccount acc) {
+        Account a = saveNewAccount(acc);
+        UserRequest userRequest = new UserRequest();
+        userRequest.setUsername(a.getUuid());
+        userRequest.setPassword(acc.getPassword());
         keycloakService.create(userRequest);
 
         return a;
     }
 
+    @Transactional
+    protected Account saveNewAccount(NewAccount acc){
+        Account a = mapper.toEntity(acc);
+        String id = UUID.randomUUID().toString();
 
+        a.setUuid(id);
+        a.setSolde("0");
+        //Pas un vrai IBAN voir https://github.com/arturmkrtchyan/iban4j
+        a.setIban(a.getCountry().substring(0, 2).toUpperCase(Locale.ROOT)
+                + UUID.randomUUID().toString().replace("-", "").substring(0, 20).toUpperCase(Locale.ROOT));
+        return accRep.save(a);
+    }
+
+    @Transactional
     public Optional<Account> patchAccount(String uuid, Map<Object, Object> fields) {
         var account = accRep.findById(uuid);
         if (account.isPresent()) {

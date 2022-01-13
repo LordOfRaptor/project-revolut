@@ -41,7 +41,7 @@ public class AccountsControllerAdvice {
 
     @ResponseStatus(value = HttpStatus.CONFLICT)
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public Map<String, String> DataIntegrityException(HttpServletRequest req, DataIntegrityViolationException e) {
+    public Map<String, String> dataIntegrityException(HttpServletRequest req, DataIntegrityViolationException e) {
         Map<String, String> json = new LinkedHashMap<>();
         json.put("status",String.valueOf(HttpStatus.CONFLICT.value()));
         json.put("path",req.getRequestURI());

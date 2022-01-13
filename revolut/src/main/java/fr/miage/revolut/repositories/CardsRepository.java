@@ -10,13 +10,25 @@ import java.util.Optional;
 @Repository
 public interface CardsRepository  extends JpaRepository<Card, String> {
 
-    List<Card> findByAccount_Uuid(String uuid);
 
     List<Card> findByAccount_UuidAndDeleteFalse(String uuid);
 
-    Optional<Card> findByCardNumberAndDeleteIsFalse(String cardNumber);
 
     Optional<Card> findByCardNumberAndAccount_UuidAndDeleteIsFalse(String cardNumber, String uuid);
+
+    Optional<Card> findByCardNumberAndCodeAndDeleteIsFalse(String cardNumber, String code);
+
+    Optional<Card> findByCardNumberAndContactlessIsTrue(String cardNumber);
+
+
+    Optional<Card> findByCardNumberAndCvvAndDeleteIsFalse(String cardNumber, String cvv);
+
+
+
+
+    boolean existsByCardNumber(String cardNumber);
+
+
 
 
 

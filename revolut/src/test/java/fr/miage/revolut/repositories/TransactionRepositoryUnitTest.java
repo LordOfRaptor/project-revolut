@@ -25,7 +25,7 @@ public class TransactionRepositoryUnitTest {
     @BeforeAll
     static void setUp() {
         t1 = new Transaction();
-        t1.setAmount(500);
+        t1.setAmount("500");
         t1.setCreditAccount(iban);
         t1.setDebtorAccount("5678");
         t1.setCountry("France");
@@ -33,7 +33,7 @@ public class TransactionRepositoryUnitTest {
         t1.setLabel("Paiement restaurant");
         t1.setCategory("Restaurant");
         t2 = new Transaction();
-        t2.setAmount(500);
+        t2.setAmount("500");
         t2.setCreditAccount("5678");
         t2.setDebtorAccount(iban);
         t2.setCountry("France");
@@ -41,7 +41,7 @@ public class TransactionRepositoryUnitTest {
         t2.setLabel("Paiement loyer");
         t2.setCategory("Loyer");
         t3 = new Transaction();
-        t3.setAmount(500);
+        t3.setAmount("500");
         t3.setCreditAccount("6789");
         t3.setDebtorAccount("5678");
         t3.setCountry("France");

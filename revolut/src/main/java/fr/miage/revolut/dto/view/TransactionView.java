@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Getter
@@ -11,7 +12,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 public class TransactionView {
 
-    private long amount;
+    private BigDecimal amount;
 
     private String category;
 

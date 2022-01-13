@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Map;
 import java.util.Optional;
@@ -50,17 +51,15 @@ public class CardsController {
 
     @PostMapping
     @IsUser
-    @Transactional
-    public ResponseEntity<?> createCard(@PathVariable("uuid") String uuid,@RequestBody NewCard card){
+    public ResponseEntity<?> createCard(@PathVariable("uuid") String uuid,@Valid @RequestBody NewCard card){
         var a = cardsService.create(card,uuid);
-        URI location = linkTo(CardsController.class).slash(a.getCardNumber()).toUri();
+        URI location = linkTo(CardsController.class,uuid).slash(a.getCardNumber()).toUri();
         return ResponseEntity.created(location).build();
 
     }
 
     @DeleteMapping(value = "/{cardNumber}")
     @IsUser
-    @Transactional
     public ResponseEntity<?> deleteCard(@PathVariable("uuid") String uuid,@PathVariable("cardNumber") String cardNumber){
         var a = cardsService.deleteCard(cardNumber,uuid);
         return Optional.ofNullable(a).filter(Optional::isPresent)
@@ -71,7 +70,6 @@ public class CardsController {
 
     @PatchMapping(path = "/{cardNumber}")
     @IsUser
-    @Transactional
     public ResponseEntity<EntityModel<CardView>> patchCard(@PathVariable("uuid") String uuid, @PathVariable("cardNumber") String cardNumber, @RequestBody Map<Object, Object> fields) {
         var a = cardsService.patchAccount(cardNumber,uuid,fields);
         return Optional.ofNullable(a).filter(Optional::isPresent)

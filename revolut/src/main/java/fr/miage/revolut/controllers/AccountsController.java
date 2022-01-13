@@ -66,7 +66,6 @@ public class AccountsController {
     }
 
     @PostMapping
-    @Transactional
     public ResponseEntity<?> saveAccount(@RequestBody @Valid NewAccount acc) {
         Account a = accountsService.saveAccount(acc);
         URI location = linkTo(AccountsController.class).slash(a.getUuid()).toUri();
@@ -98,18 +97,6 @@ public class AccountsController {
                 .orElse(ResponseEntity.notFound().build());
 
 
-    }
-
-    @GetMapping(value = "/{uuidIntervenant}/cards")
-    @Transactional
-    public ResponseEntity<?> getAccountCards(@PathVariable("uuidIntervenant") String uuid) {
-        return ResponseEntity.notFound().build();
-    }
-
-    @GetMapping(value = "/{uuidIntervenant}/transactions")
-    @Transactional
-    public ResponseEntity<?> getAccountTransactions(@PathVariable("uuidIntervenant") String uuid) {
-        return ResponseEntity.notFound().build();
     }
 
 }

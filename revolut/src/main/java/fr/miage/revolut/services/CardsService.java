@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,9 +41,12 @@ public class CardsService {
 
     }
 
+    @Transactional
     public Card create(NewCard newCard,String uuid) {
         var card = cardsMapper.toEntity(newCard);
-        card.setCardNumber(rand.generateNumericString(16));
+        do{
+            card.setCardNumber(rand.generateNumericString(16));
+        }while(cardsRepository.existsByCardNumber(card.getCardNumber()));
         accountsRepository.findById(uuid).ifPresent(card::setAccount);
         card.setCode(rand.generateNumericString(4));
         card.setCvv(rand.generateNumericString(3));
@@ -51,6 +55,7 @@ public class CardsService {
         return card;
     }
 
+    @Transactional
     public Optional<Card> patchAccount(String cardNumber,String uuid, Map<Object, Object> fields) {
         var cardOpt = cardsRepository.findByCardNumberAndAccount_UuidAndDeleteIsFalse(cardNumber,uuid);
         if (cardOpt.isPresent()) {
@@ -76,6 +81,7 @@ public class CardsService {
         return Optional.empty();
     }
 
+    @Transactional
     public Optional<Card> deleteCard(String cardNumber,String uuid){
         var cardOpt = cardsRepository.findByCardNumberAndAccount_UuidAndDeleteIsFalse(cardNumber,uuid);
         if (cardOpt.isPresent()) {

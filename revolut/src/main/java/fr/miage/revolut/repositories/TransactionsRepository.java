@@ -27,6 +27,10 @@ public interface TransactionsRepository extends JpaRepository<Transaction, Strin
     @Query("select t from Transaction t where t.uuid = ?1 and (t.creditAccount = ?2 or t.debtorAccount = ?2)")
     Optional<Transaction> findByUuidAndCreditAccountOrDebtorAccount(String uuid, String iban);
 
+    Optional<Transaction> findByUuidAndDebtorAccount(String uuid, String debtorAccount);
+
+
+
 
 
 

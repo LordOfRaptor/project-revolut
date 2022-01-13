@@ -53,15 +53,15 @@ public class TransactionCardRepositoryUnitTest {
         c2 = new Card();
         c2.setCardNumber("2234567891234567");
         t1 = new Transaction();
-        t1.setAmount(500);
+        t1.setAmount("500");
         t1.setUuid("uuid-t1");
         t1.setDate(odt);
         t2 = new Transaction();
-        t2.setAmount(500);
+        t2.setAmount("500");
         t2.setUuid("uuid-t2");
         t2.setDate(odt.minusDays(31));
         t3 = new Transaction();
-        t3.setAmount(500);
+        t3.setAmount("500");
         t3.setUuid("uuid-t3");
         t3.setDate(odt);
         pt1 = new PivotTransactionCard();

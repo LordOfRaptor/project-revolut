@@ -89,5 +89,16 @@ public class CardRepositoryUnitTest {
         assertEquals(2,cards.size());
     }
 
+    @Test
+    void existingCardNumber(){
+        assertFalse(cardsRepository.existsByCardNumber("5555567891234567"));
+    }
+
+    @Test
+    void noneExistingCardNumber(){
+        assertTrue(cardsRepository.existsByCardNumber("1234567891234567"));
+    }
+
+
 
 }
