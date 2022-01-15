@@ -11,21 +11,22 @@ public class TauxChange {
 
     @Id
     private String uuid;
-    @Column(name = "devise_source")
-    private String source;
-    @Column(name = "devise_cible")
-    private String cible;
+    @Column(name = "pays",unique = true)
+    private String pays;
+    @Column(name = "code",unique = true)
+    private String code;
+    @Column(name = "taux_conversion")
     private BigDecimal tauxConversion;
 
     public TauxChange() {
         // JPA
     }
 
-    public TauxChange(String uuid, String source, String cible, BigDecimal taux) {
+    public TauxChange(String uuid, String pays, String code, BigDecimal taux) {
         super();
         this.uuid = uuid;
-        this.source = source;
-        this.cible = cible;
+        this.pays = pays;
+        this.code = code;
         this.tauxConversion = taux;
     }
 
@@ -33,12 +34,12 @@ public class TauxChange {
         return uuid;
     }
 
-    public String getSource() {
-        return source;
+    public String getCode() {
+        return code;
     }
 
-    public String getCible() {
-        return cible;
+    public String getPays() {
+        return pays;
     }
 
     public BigDecimal getTauxConversion() {

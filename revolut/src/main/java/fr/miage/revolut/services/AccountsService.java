@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Validator;
+import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -52,7 +53,7 @@ public class AccountsService {
         String id = UUID.randomUUID().toString();
 
         a.setUuid(id);
-        a.setSolde("0");
+        a.setSolde(acc.getSolde().multiply(BigDecimal.valueOf(100)).toBigInteger().toString());
         //Pas un vrai IBAN voir https://github.com/arturmkrtchyan/iban4j
         a.setIban(a.getCountry().substring(0, 2).toUpperCase(Locale.ROOT)
                 + UUID.randomUUID().toString().replace("-", "").substring(0, 20).toUpperCase(Locale.ROOT));

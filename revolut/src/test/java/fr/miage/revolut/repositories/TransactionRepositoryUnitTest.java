@@ -64,23 +64,18 @@ public class TransactionRepositoryUnitTest {
 
     @Test
     void findByTransactionByFilters(){
-        var res = transactionsRepository.findTransactionByIbanLabelCountryCategory(iban,"restaurant",null,null);
+        var res = transactionsRepository.findTransactionByIbanLabelCountryCategory(iban,"Restaurant",null,null);
         assertEquals(1,res.size());
         assertEquals("uuid-t1",res.get(0).getUuid());
         res = transactionsRepository.findTransactionByIbanLabelCountryCategory(iban,null,null,null);
         assertEquals(2,res.size());
         res = transactionsRepository.findTransactionByIbanLabelCountryCategory(iban,null,"belgique",null);
         assertEquals(0,res.size());
+        res = transactionsRepository.findTransactionByIbanLabelCountryCategory("2345",null,null,null);
+        assertEquals(0,res.size());
 
     }
 
-    @Test
-    void findByTransactionByFiltersLike(){
-        var res = transactionsRepository.findTransactionByIbanLabelCountryCategory(iban,null,null,"loyer");
-        assertEquals(1,res.size());
-        assertEquals("uuid-t2",res.get(0).getUuid());
-
-    }
     
     @Test
     void findTransactionFailure(){

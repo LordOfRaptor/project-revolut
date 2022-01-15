@@ -18,10 +18,10 @@ public interface TransactionsRepository extends JpaRepository<Transaction, Strin
 
     @Query(value = "SELECT t from Transaction t " +
             "WHERE (t.creditAccount=:iban or t.debtorAccount=:iban ) and " +
-            "(:category is null OR UPPER(t.category) LIKE UPPER(concat('%',:category,'%'))) and " +
-            "(:label is null OR UPPER(t.label) LIKE UPPER(concat('%',:label,'%'))) and " +
-            "(:country is null OR UPPER(t.country) LIKE UPPER(concat('%',:country,'%')))")
-    public List<Transaction> findTransactionByIbanLabelCountryCategory(@Param("iban") String iban,@Param("category") String category,@Param("country") String country,@Param("label") String label);
+            "(:category is null OR t.category LIKE :category) and " +
+            "(:label is null OR t.label LIKE :label) and " +
+            "(:country is null OR t.country LIKE :country)")
+    List<Transaction> findTransactionByIbanLabelCountryCategory(@Param("iban") String iban,@Param("category") String category,@Param("country") String country,@Param("label") String label);
 
 
     @Query("select t from Transaction t where t.uuid = ?1 and (t.creditAccount = ?2 or t.debtorAccount = ?2)")

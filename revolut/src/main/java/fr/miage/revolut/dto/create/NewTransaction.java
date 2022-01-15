@@ -12,6 +12,7 @@ public class NewTransaction {
 
     @Positive
     @Digits(integer=10, fraction=2)
+    @NotNull
     private BigDecimal amount;
     @Size(max = 15, message = "category invalid size max is {max}")
     private String category;

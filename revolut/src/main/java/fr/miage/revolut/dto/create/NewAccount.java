@@ -4,10 +4,8 @@ package fr.miage.revolut.dto.create;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -36,6 +34,10 @@ public class NewAccount {
     @NotEmpty
     @Pattern(regexp = "^\\+[1-9][0-9]{7,13}$", message = "Numero de telephone invalide")
     private String phoneNumber;
+
+    @Positive
+    @Digits(integer=10, fraction=2)
+    private BigDecimal solde = BigDecimal.ZERO;
 
     @NotBlank(message = "password invalid must be not blank")
     @Size(min = 8,max = 30, message = "password invalid must be between {min} and {max}")

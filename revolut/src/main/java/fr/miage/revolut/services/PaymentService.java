@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class PaymentService {
         var amount = pivotTransactionCards.stream().map(p -> new BigInteger(p.getTransactionCard().getTransaction().getAmount())).toList();
         var total = amount.stream().reduce(BigInteger.ZERO,BigInteger::add);
         if((card.getLocation() && !(a.getCountry().equalsIgnoreCase(payment.getCountry())) ||
-             card.getBlocked() || (total.compareTo(new BigInteger(String.valueOf(card.getLimit()))) > 0)))
+             card.getBlocked() || (total.compareTo( (new BigInteger(String.valueOf(card.getLimit()))).multiply(BigInteger.valueOf(100)) ) > 0)))
             return Optional.empty();
         Transaction transaction = new Transaction();
         transaction.setUuid(UUID.randomUUID().toString());
@@ -57,7 +58,7 @@ public class PaymentService {
             transaction.setChangeRate(BigDecimal.ONE);
         }
         else {
-            transaction.setChangeRate(conversionClient.getConversion(a.getCountry(),transaction.getCountry()));
+            transaction.setChangeRate(conversionClient.getConversion(a.getCountry(),transaction.getCountry()).setScale(2, RoundingMode.HALF_DOWN));
         }
         if(accountsRepository.existsByIban(transaction.getCreditAccount())){
             var a2 = accountsRepository.findByIban(transaction.getCreditAccount());
@@ -108,7 +109,7 @@ public class PaymentService {
         var amount = pivotTransactionCards.stream().map(p -> new BigInteger(p.getTransactionCard().getTransaction().getAmount())).toList();
         var total = amount.stream().reduce(BigInteger.ZERO,BigInteger::add);
         if((card.getLocation() && !(a.getCountry().equalsIgnoreCase(payment.getCountry())) ||
-                card.getBlocked() || (total.compareTo(new BigInteger(String.valueOf(card.getLimit()))) > 0)))
+                card.getBlocked() || (total.compareTo( (new BigInteger(String.valueOf(card.getLimit()))).multiply(BigInteger.valueOf(100)) ) > 0)))
             return Optional.empty();
         Transaction transaction = new Transaction();
         transaction.setUuid(UUID.randomUUID().toString());
@@ -125,7 +126,7 @@ public class PaymentService {
             transaction.setChangeRate(BigDecimal.ONE);
         }
         else {
-            transaction.setChangeRate(conversionClient.getConversion(a.getCountry(),transaction.getCountry()));
+            transaction.setChangeRate(conversionClient.getConversion(a.getCountry(),transaction.getCountry()).setScale(2, RoundingMode.HALF_DOWN));
         }
         if(accountsRepository.existsByIban(transaction.getCreditAccount())){
             var a2 = accountsRepository.findByIban(transaction.getCreditAccount());

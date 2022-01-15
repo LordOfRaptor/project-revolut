@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -36,17 +37,10 @@ public class TransactionService {
     public List<Transaction> findAllTransactions(String uuid, Map<String,String> filtres) {
         var acc = accountsRepository.findById(uuid);
         if(acc.isPresent()) {
-            AtomicReference<String> label = new AtomicReference<>();
-            AtomicReference<String> country = new AtomicReference<>();
-            AtomicReference<String> category = new AtomicReference<>();
-            filtres.forEach((f, v) -> {
-                switch (f){
-                    case "label" -> label.set(v);
-                    case "country" -> country.set(v);
-                    case "category" -> category.set(v);
-                }
-            });
-            var transactions = transactionsRepository.findTransactionByIbanLabelCountryCategory(acc.get().getIban(), category.get(), country.get(), label.get());
+            String label = filtres.get("label");
+            String country = filtres.get("country");
+            String category = filtres.get("category");
+            var transactions = transactionsRepository.findTransactionByIbanLabelCountryCategory(acc.get().getIban(), category, country, label);
             return listDebtorOrReceiver(transactions,acc.get().getIban());
 
 
@@ -112,7 +106,7 @@ public class TransactionService {
             transac.setChangeRate(BigDecimal.ONE);
         }
         else {
-            transac.setChangeRate(conversionClient.getConversion(a.get().getCountry(),transac.getCountry()));
+            transac.setChangeRate(conversionClient.getConversion(a.get().getCountry(),transac.getCountry()).setScale(2, RoundingMode.HALF_DOWN));
         }
         if(accountsRepository.existsByIban(transaction.getCreditAccount())){
             var a2 = accountsRepository.findByIban(transaction.getCreditAccount());

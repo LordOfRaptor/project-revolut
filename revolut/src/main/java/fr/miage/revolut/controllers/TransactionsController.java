@@ -60,7 +60,7 @@ public class TransactionsController {
     public ResponseEntity<?> createTransaction(@PathVariable("uuid") String uuid, @RequestBody @Valid NewTransaction transaction){
         var t = transactionService.create(transaction,uuid);
         if(t.isEmpty())
-            ResponseEntity.badRequest();
+            return ResponseEntity.status(403).build();
         URI location = linkTo(TransactionsController.class,uuid).slash(t.get().getUuid()).toUri();
         return ResponseEntity.created(location).build();
     }

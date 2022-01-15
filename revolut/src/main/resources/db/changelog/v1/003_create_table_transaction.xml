@@ -11,7 +11,7 @@
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_transaction"/>
             </column>
             <column name="date" type="timestamp with time zone"/>
-            <column name="amount" type="BIGINT"/>
+            <column name="amount" type="VARCHAR(255)"/>
             <column name="change_rate" type="DECIMAL(10, 2)"/>
             <column name="category" type="VARCHAR(255)"/>
             <column name="country" type="VARCHAR(255)"/>

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.math.BigDecimal;
 
-@FeignClient(value = "conversion",url = "${app.conversion-service}")
+@FeignClient(value = "conversion-service",url = "${app.conversion-service}")
 public interface ConversionClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/conversion/{source}/{destination}", consumes = "application/json")

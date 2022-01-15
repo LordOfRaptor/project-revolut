@@ -20,20 +20,24 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class PaymentController {
 
-    PaymentService paymentService;
+    private final PaymentService paymentService;
 
 
 
     @PostMapping(value = "/physique")
     public ResponseEntity<?> createTransactionPhysique(@RequestBody @Valid PaymentPhysique payment){
         var res = paymentService.createTransaction(payment);
-        return ResponseEntity.notFound().build();
+        if(res.isEmpty())
+            return ResponseEntity.status(403).build();
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping(value = "/online")
     public ResponseEntity<?> createTransactionOnline(@RequestBody @Valid PaymentOnline payment){
         var res = paymentService.createTransaction(payment);
-        return ResponseEntity.notFound().build();
+        if(res.isEmpty())
+            return ResponseEntity.status(403).build();
+        return ResponseEntity.noContent().build();
 
 
     }

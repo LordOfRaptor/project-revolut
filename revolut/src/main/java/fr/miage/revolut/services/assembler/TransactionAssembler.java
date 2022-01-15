@@ -50,7 +50,7 @@ public class TransactionAssembler implements RepresentationModelAssembler<Transa
                 .map(i -> toModelWithAccount(i,uuid))
                 .toList();
         return CollectionModel.of(transactionModel,
-                linkTo(methodOn(CardsController.class)
-                        .getCards(uuid)).withSelfRel());
+                linkTo(methodOn(TransactionsController.class)
+                        .getTransactions(uuid,null)).withSelfRel());
     }
 }
