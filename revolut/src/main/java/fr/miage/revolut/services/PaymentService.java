@@ -40,12 +40,14 @@ public class PaymentService {
         var pivotTransactionCards = transactionCardRepository.findByTransactionCard_Card_CardNumberAndTransactionCard_Transaction_DateGreaterThanEqual(card.getCardNumber(),OffsetDateTime.now().minusDays(30));
         var amount = pivotTransactionCards.stream().map(p -> new BigInteger(p.getTransactionCard().getTransaction().getAmount())).toList();
         var total = amount.stream().reduce(BigInteger.ZERO,BigInteger::add);
+        var val = payment.getAmount().multiply(BigDecimal.valueOf(100)).toBigInteger().toString();
+        total = total.add(new BigInteger(val));
         if((card.getLocation() && !(a.getCountry().equalsIgnoreCase(payment.getCountry())) ||
              card.getBlocked() || (total.compareTo( (new BigInteger(String.valueOf(card.getLimit()))).multiply(BigInteger.valueOf(100)) ) > 0)))
             return Optional.empty();
         Transaction transaction = new Transaction();
         transaction.setUuid(UUID.randomUUID().toString());
-        transaction.setAmount(payment.getAmount().multiply(BigDecimal.valueOf(100)).toBigInteger().toString());
+        transaction.setAmount(val);
         transaction.setCreditAccount(payment.getCreditAccount());
         transaction.setDebtorAccount(a.getIban());
         transaction.setDate(OffsetDateTime.now());
@@ -108,12 +110,14 @@ public class PaymentService {
         var pivotTransactionCards = transactionCardRepository.findByTransactionCard_Card_CardNumberAndTransactionCard_Transaction_DateGreaterThanEqual(card.getCardNumber(),OffsetDateTime.now().minusDays(30));
         var amount = pivotTransactionCards.stream().map(p -> new BigInteger(p.getTransactionCard().getTransaction().getAmount())).toList();
         var total = amount.stream().reduce(BigInteger.ZERO,BigInteger::add);
+        var val = payment.getAmount().multiply(BigDecimal.valueOf(100)).toBigInteger().toString();
+        total = total.add(new BigInteger(val));
         if((card.getLocation() && !(a.getCountry().equalsIgnoreCase(payment.getCountry())) ||
                 card.getBlocked() || (total.compareTo( (new BigInteger(String.valueOf(card.getLimit()))).multiply(BigInteger.valueOf(100)) ) > 0)))
             return Optional.empty();
         Transaction transaction = new Transaction();
         transaction.setUuid(UUID.randomUUID().toString());
-        transaction.setAmount(payment.getAmount().multiply(BigDecimal.valueOf(100)).toBigInteger().toString());
+        transaction.setAmount(val);
         transaction.setCreditAccount(payment.getCreditAccount());
         transaction.setDebtorAccount(a.getIban());
         transaction.setDate(OffsetDateTime.now());

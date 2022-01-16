@@ -9,6 +9,7 @@ import fr.miage.revolut.entities.Card;
 import fr.miage.revolut.services.CardsService;
 import fr.miage.revolut.services.assembler.CardAssembler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.MediaType;
@@ -34,14 +35,14 @@ public class CardsController {
 
     @GetMapping
     @IsUser
-    public ResponseEntity<?> getCards(@PathVariable("uuid") String uuid){
+    public ResponseEntity<CollectionModel<EntityModel<CardView>>> getCards(@PathVariable("uuid") String uuid){
         return ResponseEntity.ok(cardAssembler.toCollectionModelWithAccount(cardsService.findAllByAccount(uuid), uuid));
 
     }
 
     @GetMapping(value = "/{cardNumber}")
     @IsUser
-    public ResponseEntity<?> getCard(@PathVariable("uuid") String uuid,@PathVariable("cardNumber") String cardNumber){
+    public ResponseEntity<EntityModel<CardView>> getCard(@PathVariable("uuid") String uuid,@PathVariable("cardNumber") String cardNumber){
         var a = cardsService.findCard(cardNumber,uuid);
         return Optional.ofNullable(a).filter(Optional::isPresent)
                 .map(account -> ResponseEntity.ok(cardAssembler.toModelWithAccount(account.get(),uuid)))

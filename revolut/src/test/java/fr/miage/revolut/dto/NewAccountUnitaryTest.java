@@ -14,6 +14,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import java.math.BigDecimal;
+
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -41,6 +43,7 @@ class NewAccountUnitaryTest {
         newAccount.setPassport("AZ1234567");
         newAccount.setPhoneNumber("+330707070707");
         newAccount.setPassword("azertyuiop");
+        newAccount.setSolde(BigDecimal.valueOf(1000));
         newAccountValidator = new NewAccountValidator(validator);
     }
 

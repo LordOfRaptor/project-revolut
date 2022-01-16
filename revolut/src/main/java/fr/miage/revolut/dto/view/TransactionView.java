@@ -24,9 +24,9 @@ public class TransactionView {
 
     //receive
     private String creditAccount;
-    private String creditAcountName;
+    private String creditAccountName;
 
     //Send
     private String debtorAccount;
-    private String debtorAcountName;
+    private String debtorAccountName;
 }

@@ -22,6 +22,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -76,6 +77,7 @@ class AccountControllerIntegrationTest {
         newAccount.setPassport("AAAAAAAAA");
         newAccount.setCountry("France");
         newAccount.setPassword("testtest");
+        newAccount.setSolde(BigDecimal.valueOf(1000));
     }
 
 
