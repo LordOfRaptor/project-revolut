@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: keycloakPassword
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./keycloak-data-test:/var/lib/mysql
+  keycloak:
+    image: quay.io/keycloak/keycloak:15.0.2
+    ports:
+      - "8180:8180"
+    command: [ "-Djboss.socket.binding.port-offset=100" , "-b 0.0.0.0 -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/opt/jboss/keycloak/imports/keycloak-export.json -Dkeycloak.profile.feature.upload_scripts=enabled"]
+    environment:
+      DB_VENDOR: mysql
+      DB_ADDR: mysql
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: keycloakPassword
+      DB_SCHEMA: public
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+    depends_on:
+      - mysql
+    volumes:
+      - ./imports-test:/opt/jboss/keycloak/imports
+volumes:
+  keycloak-data-test:
+  imports-test:
