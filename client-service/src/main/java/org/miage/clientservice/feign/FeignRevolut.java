@@ -1,9 +1,7 @@
 package org.miage.clientservice.feign;
 
 import org.miage.clientservice.dto.PaymentOnline;
-import org.miage.clientservice.dto.PaymentOnlineDTO;
 import org.miage.clientservice.dto.PaymentPhysique;
-import org.miage.clientservice.dto.PaymentPhysiqueDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

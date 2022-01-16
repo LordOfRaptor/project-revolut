@@ -3,10 +3,8 @@ package fr.miage.revolut.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.miage.revolut.dto.PaymentOnline;
 import fr.miage.revolut.dto.PaymentPhysique;
-import fr.miage.revolut.dto.create.NewCard;
 import fr.miage.revolut.entities.Account;
 import fr.miage.revolut.entities.Card;
-import fr.miage.revolut.entities.Transaction;
 import fr.miage.revolut.repositories.AccountsRepository;
 import fr.miage.revolut.repositories.CardsRepository;
 import fr.miage.revolut.repositories.TransactionCardRepository;
@@ -28,7 +26,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.math.BigDecimal;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

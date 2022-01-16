@@ -1,12 +1,8 @@
 package fr.miage.revolut.services.assembler;
 
-import fr.miage.revolut.controllers.AccountsController;
 import fr.miage.revolut.controllers.CardsController;
-import fr.miage.revolut.dto.view.AccountView;
 import fr.miage.revolut.dto.view.CardView;
-import fr.miage.revolut.entities.Account;
 import fr.miage.revolut.entities.Card;
-import fr.miage.revolut.mapper.AccountsMapper;
 import fr.miage.revolut.mapper.CardsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;

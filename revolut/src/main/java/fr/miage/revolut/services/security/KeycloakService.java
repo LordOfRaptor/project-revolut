@@ -1,7 +1,6 @@
 package fr.miage.revolut.services.security;
 
 import fr.miage.revolut.dto.UserRequest;
-import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.ClientRepresentation;

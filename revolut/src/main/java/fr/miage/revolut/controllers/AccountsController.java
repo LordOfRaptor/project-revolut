@@ -19,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.HashMap;
@@ -73,7 +72,7 @@ public class AccountsController {
     }
 
     @PostMapping(path = "/{uuidIntervenant}")
-    public ResponseEntity<?> signin(@PathVariable("uuidIntervenant") String uuid,@RequestBody UserRequest userRequest){
+    public ResponseEntity<AccessTokenResponse> signin(@PathVariable("uuidIntervenant") String uuid,@RequestBody UserRequest userRequest){
         Map<String, Object> clientCredentials = new HashMap<>();
         clientCredentials.put("secret", secret);
         clientCredentials.put("grant_type", "password");

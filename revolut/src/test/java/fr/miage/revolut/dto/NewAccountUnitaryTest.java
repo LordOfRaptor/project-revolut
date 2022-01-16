@@ -13,7 +13,6 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-
 import java.math.BigDecimal;
 
 import static org.hamcrest.CoreMatchers.containsString;

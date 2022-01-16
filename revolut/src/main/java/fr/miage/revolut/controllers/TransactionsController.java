@@ -2,10 +2,13 @@ package fr.miage.revolut.controllers;
 
 import fr.miage.revolut.config.annotations.IsUser;
 import fr.miage.revolut.dto.create.NewTransaction;
+import fr.miage.revolut.dto.view.TransactionView;
 import fr.miage.revolut.entities.Transaction;
 import fr.miage.revolut.services.TransactionService;
 import fr.miage.revolut.services.assembler.TransactionAssembler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -30,24 +32,22 @@ public class TransactionsController {
 
     @GetMapping
     @IsUser
-    public ResponseEntity<?> getTransactions(@PathVariable("uuid") String uuid,@RequestParam(required = false) Map<String,String> filtres){
+    public ResponseEntity<CollectionModel<EntityModel<TransactionView>>> getTransactions(@PathVariable("uuid") String uuid, @RequestParam(required = false) Map<String,String> filtres){
         return ResponseEntity.ok(transactionAssembler.toCollectionModelWithAccount(transactionService.findAllTransactions(uuid,filtres), uuid));
 
     }
 
     @GetMapping(value = "/{transactionUuid}")
     @IsUser
-    public ResponseEntity<?> getTransaction(@PathVariable("uuid") String uuid,@PathVariable("transactionUuid") String transactionUuid){
+    public ResponseEntity<EntityModel<TransactionView>> getTransaction(@PathVariable("uuid") String uuid,@PathVariable("transactionUuid") String transactionUuid){
         var t = transactionService.findTransaction(uuid,transactionUuid);
-        if(t.isPresent())
-            return ResponseEntity.ok(transactionAssembler.toModelWithAccount(t.get(), uuid));
-        return ResponseEntity.notFound().build();
+        return t.map(transaction -> ResponseEntity.ok(transactionAssembler.toModelWithAccount(transaction, uuid))).orElseGet(() -> ResponseEntity.notFound().build());
 
     }
 
     @PatchMapping(value = "/{transactionUuid}")
     @IsUser
-    public ResponseEntity<?> patchTransaction(@PathVariable("uuid") String uuid,@PathVariable("transactionUuid") String transactionUuid, @RequestBody Map<Object, Object> fields){
+    public ResponseEntity<EntityModel<TransactionView>> patchTransaction(@PathVariable("uuid") String uuid,@PathVariable("transactionUuid") String transactionUuid, @RequestBody Map<Object, Object> fields){
         var a = transactionService.patchTransaction(uuid,transactionUuid,fields);
         return Optional.ofNullable(a).filter(Optional::isPresent)
                 .map(card -> ResponseEntity.ok(transactionAssembler.toModelWithAccount(card.get(),uuid)))

@@ -1,9 +1,7 @@
 package fr.miage.revolut.services;
 
 import fr.miage.revolut.dto.create.NewCard;
-import fr.miage.revolut.dto.patch.PatchAccount;
 import fr.miage.revolut.dto.patch.PatchCard;
-import fr.miage.revolut.entities.Account;
 import fr.miage.revolut.entities.Card;
 import fr.miage.revolut.mapper.CardsMapper;
 import fr.miage.revolut.repositories.AccountsRepository;
@@ -18,7 +16,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor

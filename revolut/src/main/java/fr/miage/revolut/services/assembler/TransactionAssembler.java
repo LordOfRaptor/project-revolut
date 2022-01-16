@@ -1,10 +1,7 @@
 package fr.miage.revolut.services.assembler;
 
-import fr.miage.revolut.controllers.CardsController;
 import fr.miage.revolut.controllers.TransactionsController;
-import fr.miage.revolut.dto.view.CardView;
 import fr.miage.revolut.dto.view.TransactionView;
-import fr.miage.revolut.entities.Card;
 import fr.miage.revolut.entities.Transaction;
 import fr.miage.revolut.mapper.TransactionsMapper;
 import lombok.RequiredArgsConstructor;

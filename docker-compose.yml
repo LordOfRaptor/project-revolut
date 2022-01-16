@@ -10,8 +10,6 @@ services:
       - POSTGRES_DB=revolut
     volumes:
       - ./data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
   mysql:
     image: mysql:5.7
     restart: always
@@ -23,10 +21,11 @@ services:
     volumes:
       - ./keycloak-data:/var/lib/mysql
   keycloak:
+    container_name: keycloak
     image: quay.io/keycloak/keycloak:15.0.2
     ports:
       - "8180:8180"
-    command: [ "-Djboss.socket.binding.port-offset=100" ]
+    command: [ "-Djboss.socket.binding.port-offset=100" , "-b 0.0.0.0 -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/opt/jboss/keycloak/imports/keycloak-export.json -Dkeycloak.profile.feature.upload_scripts=enabled"]
     environment:
       DB_VENDOR: mysql
       DB_ADDR: mysql
@@ -52,7 +51,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=revolut
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - APP_CONVERSION-SERVICE=http://bourse:8082
-      - KEYCLOAK.AUTH-SERVER-URL=http://keycloak:8180/auth
+      - KEYCLOAK_AUTH-SERVER-URL=http://keycloak:8180/auth
     ports:
       - "8080:8080"
     deploy:

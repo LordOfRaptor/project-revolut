@@ -3,7 +3,6 @@ package fr.miage.revolut.controllers;
 
 import fr.miage.revolut.config.annotations.IsUser;
 import fr.miage.revolut.dto.create.NewCard;
-import fr.miage.revolut.dto.view.AccountView;
 import fr.miage.revolut.dto.view.CardView;
 import fr.miage.revolut.entities.Card;
 import fr.miage.revolut.services.CardsService;
@@ -16,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Map;
